@@ -1,4 +1,4 @@
-# AtomQuest — Goal Setting & Tracking Portal
+# AtomQuest - Goal Setting & Tracking Portal
 
 A functional, audit-ready web portal for employee goal setting, manager approval, and quarterly achievement tracking.
 
