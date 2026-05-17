@@ -22,7 +22,5 @@ COPY . /var/www/html/
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Listen on Railway's PORT
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/sites-available/000-default.conf /etc/apache2/ports.conf
-
-EXPOSE ${PORT}
+# Port binding is handled at runtime via railway.json
+EXPOSE 80
