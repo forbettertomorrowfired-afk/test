@@ -5,6 +5,9 @@ RUN apt-get update && apt-get install -y libpq-dev \
     && docker-php-ext-install pdo_pgsql \
     && rm -rf /var/lib/apt/lists/*
 
+# Ensure only mpm_prefork is loaded (required for mod_php)
+RUN a2dismod mpm_event 2>/dev/null; a2enmod mpm_prefork
+
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
