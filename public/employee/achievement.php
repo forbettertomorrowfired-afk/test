@@ -85,6 +85,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    // Notify manager
+    $manager_id = $_SESSION['manager_id'] ?? null;
+    if ($manager_id) {
+        create_notification($manager_id, 'achievements_logged',
+            h(current_user_name()) . " has logged achievements for $quarter waiting for your review.",
+            '/manager/checkin.php?sheet_id=' . $sheet['id'] . '&quarter=' . $quarter);
+    }
+
     flash('success', "$quarter achievements saved." . ($is_late ? ' (Flagged as late entry)' : ''));
     redirect('/employee/dashboard.php');
 }
@@ -129,6 +137,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                         <th>Actual</th>
                         <th>Status</th>
                         <th>Score</th>
+                        <th>Manager Review</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -174,6 +183,16 @@ include __DIR__ . '/../../includes/layout/header.php';
                                 <?php if (!empty($ach['is_late_entry'])): ?><span class="badge badge-late">LATE</span><?php endif; ?>
                             <?php else: ?>
                                 —
+                            <?php endif; ?>
+                        </td>
+                        <td>
+                            <?php if ($ach): 
+                                $ms = $ach['manager_status'] ?? 'pending';
+                                $c = match($ms) { 'approved' => 'badge-success', 'rejected' => 'badge-danger', default => 'badge-secondary' };
+                            ?>
+                                <span class="badge <?= $c ?>"><?= ucfirst($ms) ?></span>
+                            <?php else: ?>
+                                <span class="text-muted">—</span>
                             <?php endif; ?>
                         </td>
                     </tr>

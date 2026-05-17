@@ -5,6 +5,10 @@
 
 // ─── CSRF Token ─────────────────────────────────────────
 function getCsrfToken() {
+    // Prefer the meta tag (always injected in header for logged-in users)
+    const meta = document.querySelector('meta[name="csrf-token"]');
+    if (meta) return meta.getAttribute('content');
+    // Fallback: hidden input inside a form (login page)
     const el = document.querySelector('input[name="_csrf"]');
     return el ? el.value : '';
 }
@@ -28,10 +32,10 @@ function loadNotifications() {
                 return;
             }
             list.innerHTML = data.map(n => `
-                <div class="notif-item" onclick="window.location='${n.link || '#'}'">
+                <a href="${n.link || '#'}" class="notif-item" style="display:block; text-decoration:none; color:var(--text-main);">
                     <div>${n.message}</div>
                     <div class="notif-time">${n.created_at}</div>
-                </div>
+                </a>
             `).join('');
         })
         .catch(() => { list.innerHTML = '<div class="notif-item text-muted">Failed to load</div>'; });
@@ -94,7 +98,7 @@ function updateWeightageBar() {
 }
 
 // ─── Goal Form Management ───────────────────────────────
-let goalCounter = 0;
+var goalCounter = window.goalCounter || 0;
 
 function addGoalRow() {
     const container = document.getElementById('goalsContainer');

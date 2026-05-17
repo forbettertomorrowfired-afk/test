@@ -5,7 +5,7 @@
 
 $page_title = 'Team Dashboard';
 require_once __DIR__ . '/../../includes/auth.php';
-require_role('manager');
+require_role('manager', 'admin');
 
 $pdo = get_db();
 $manager_id = current_user_id();
@@ -100,7 +100,11 @@ include __DIR__ . '/../../includes/layout/header.php';
                             <a href="/manager/approve.php?sheet_id=<?= $sheet['id'] ?>" class="btn btn-sm btn-primary">Review</a>
                         <?php elseif ($sheet && in_array($sheet['status'], ['approved', 'locked'])): ?>
                             <a href="/manager/checkin.php?sheet_id=<?= $sheet['id'] ?>" class="btn btn-sm btn-success">Check-in</a>
-                        <?php elseif ($sheet): ?>
+                        <?php elseif ($sheet && in_array($sheet['status'], ['draft', 'returned'])): ?>
+                            <a href="/manager/edit_goals.php?sheet_id=<?= $sheet['id'] ?>" class="btn btn-sm btn-outline">Edit Goals</a>
+                        <?php elseif (!$sheet): ?>
+                            <span class="text-muted">No sheet yet</span>
+                        <?php else: ?>
                             <span class="text-muted">—</span>
                         <?php endif; ?>
                     </td>

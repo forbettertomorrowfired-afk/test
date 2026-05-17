@@ -30,21 +30,39 @@ if (!$sheet || !in_array($sheet['status'], ['approved', 'locked'])) {
 $quarter = $_GET['quarter'] ?? get_current_quarter($cycle) ?? 'Q1';
 if (!in_array($quarter, QUARTERS)) $quarter = 'Q1';
 
-// Handle comment POST
+// Handle POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     validate_csrf();
-    $comment = sanitize($_POST['comment'] ?? '');
-    if (!empty($comment)) {
-        $stmt = $pdo->prepare("
-            INSERT INTO checkin_comments (goal_sheet_id, quarter, manager_id, comment)
-            VALUES (?, ?, ?, ?)
-        ");
-        $stmt->execute([$sheet_id, $quarter, $manager_id, $comment]);
-        audit_log('checkin_comments', $sheet_id, 'INSERT', $manager_id, null, null, $comment);
-        create_notification($sheet['user_id'], 'checkin_completed',
-            current_user_name() . " has completed your $quarter check-in.",
-            '/employee/dashboard.php');
-        flash('success', "$quarter check-in comment saved.");
+    $action = $_POST['action'] ?? 'comment';
+    
+    if ($action === 'comment') {
+        $comment = sanitize($_POST['comment'] ?? '');
+        if (!empty($comment)) {
+            $stmt = $pdo->prepare("
+                INSERT INTO checkin_comments (goal_sheet_id, quarter, manager_id, comment)
+                VALUES (?, ?, ?, ?)
+            ");
+            $stmt->execute([$sheet_id, $quarter, $manager_id, $comment]);
+            audit_log('checkin_comments', $sheet_id, 'INSERT', $manager_id, null, null, $comment);
+            create_notification($sheet['user_id'], 'checkin_completed',
+                current_user_name() . " has added a comment for your $quarter check-in.",
+                '/employee/dashboard.php');
+            flash('success', "$quarter check-in comment saved.");
+            redirect('/manager/checkin.php?sheet_id=' . $sheet_id . '&quarter=' . $quarter);
+        }
+    } elseif ($action === 'save_achievements') {
+        $statuses = $_POST['manager_status'] ?? [];
+        foreach ($statuses as $ach_id => $status) {
+            $ach_id = (int)$ach_id;
+            if (!in_array($status, ['pending', 'approved', 'rejected'])) continue;
+            
+            $stmt = $pdo->prepare("UPDATE achievements SET manager_status = ?, updated_by = ? WHERE id = ?");
+            $stmt->execute([$status, $manager_id, $ach_id]);
+        }
+        flash('success', "Achievement statuses updated.");
+        create_notification($sheet['user_id'], 'achievements_reviewed',
+            current_user_name() . " has reviewed your $quarter achievements.",
+            '/employee/achievement.php?quarter=' . $quarter);
         redirect('/manager/checkin.php?sheet_id=' . $sheet_id . '&quarter=' . $quarter);
     }
 }
@@ -99,45 +117,65 @@ include __DIR__ . '/../../includes/layout/header.php';
     <div class="card-header">
         <h2>Planned vs Actual — <?= $quarter ?></h2>
     </div>
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Goal</th>
-                    <th>UoM</th>
-                    <th>Target</th>
-                    <th>Actual</th>
-                    <th>Score</th>
-                    <th>Weight</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($goals as $i => $g):
-                    $ach = $achievements[$g['id']] ?? null;
-                ?>
-                <tr>
-                    <td><?= $i + 1 ?></td>
-                    <td><?= h($g['title']) ?> <?= $g['is_shared'] ? '<span class="badge badge-info">Shared</span>' : '' ?></td>
-                    <td><?= h(uom_label($g['uom_type'])) ?></td>
-                    <td><?= $g['uom_type'] === 'timeline' ? h($g['target_date']) : h($g['target_value']) ?></td>
-                    <td>
-                        <?php if ($ach): ?>
-                            <?= $g['uom_type'] === 'timeline' ? h($ach['completion_date'] ?? '—') : h($ach['actual_value'] ?? '—') ?>
-                            <?php if (!empty($ach['is_late_entry'])): ?><span class="badge badge-late">LATE</span><?php endif; ?>
-                        <?php else: ?>
+    <form method="POST">
+        <?= csrf_field() ?>
+        <input type="hidden" name="action" value="save_achievements">
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Goal</th>
+                        <th>UoM</th>
+                        <th>Target</th>
+                        <th>Actual</th>
+                        <th>Score</th>
+                        <th>Status</th>
+                        <th>Manager Review</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($goals as $i => $g):
+                        $ach = $achievements[$g['id']] ?? null;
+                    ?>
+                    <tr>
+                        <td><?= $i + 1 ?></td>
+                        <td><?= h($g['title']) ?> <?= $g['is_shared'] ? '<span class="badge badge-info">Shared</span>' : '' ?></td>
+                        <td><?= h(uom_label($g['uom_type'])) ?></td>
+                        <td><?= $g['uom_type'] === 'timeline' ? h($g['target_date']) : h($g['target_value']) ?></td>
+                        <td>
+                            <?php if ($ach): ?>
+                                <?= $g['uom_type'] === 'timeline' ? h($ach['completion_date'] ?? '—') : h($ach['actual_value'] ?? '—') ?>
+                                <?php if (!empty($ach['is_late_entry'])): ?><span class="badge badge-late">LATE</span><?php endif; ?>
+                            <?php else: ?>
+                                <span class="text-muted">—</span>
+                            <?php endif; ?>
+                        </td>
+                        <td><?= $ach && $ach['computed_score'] !== null ? $ach['computed_score'] . '%' : '—' ?></td>
+                        <td><?= $ach ? status_badge($ach['status']) : '<span class="text-muted">—</span>' ?></td>
+                        <td>
+                            <?php if ($ach): ?>
+                            <select name="manager_status[<?= $ach['id'] ?>]" class="form-control" style="width: auto; min-width: 120px;">
+                                <option value="pending" <?= ($ach['manager_status'] ?? 'pending') === 'pending' ? 'selected' : '' ?>>Pending</option>
+                                <option value="approved" <?= ($ach['manager_status'] ?? '') === 'approved' ? 'selected' : '' ?>>Approve</option>
+                                <option value="rejected" <?= ($ach['manager_status'] ?? '') === 'rejected' ? 'selected' : '' ?>>Reject</option>
+                            </select>
+                            <?php else: ?>
                             <span class="text-muted">—</span>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= $ach && $ach['computed_score'] !== null ? $ach['computed_score'] . '%' : '—' ?></td>
-                    <td><?= $g['weightage'] ?>%</td>
-                    <td><?= $ach ? status_badge($ach['status']) : '<span class="text-muted">—</span>' ?></td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+        
+        <?php if (!empty($achievements)): ?>
+        <div style="padding: 12px; text-align: right; border-top: 1px solid var(--border);">
+            <button type="submit" class="btn btn-success">Save Reviews</button>
+        </div>
+        <?php endif; ?>
+    </form>
 </div>
 
 <!-- Check-in Comment -->
@@ -154,6 +192,7 @@ include __DIR__ . '/../../includes/layout/header.php';
 
     <form method="POST" class="mt-1">
         <?= csrf_field() ?>
+        <input type="hidden" name="action" value="comment">
         <div class="form-group">
             <label>Add Check-in Comment</label>
             <textarea name="comment" class="form-control" rows="3" required
