@@ -3,18 +3,25 @@
  * AtomQuest — Application Configuration
  */
 
-// Database — Railway provides DATABASE_URL env var
-$db_url = getenv('DATABASE_URL');
+// Database — Railway provides DATABASE_URL and PG* env vars
+$db_url = getenv('DATABASE_URL') ?: ($_ENV['DATABASE_URL'] ?? ($_SERVER['DATABASE_URL'] ?? null));
+
 if ($db_url) {
     $parsed = parse_url($db_url);
     define('DB_HOST', $parsed['host']);
     define('DB_PORT', $parsed['port'] ?? 5432);
     define('DB_NAME', ltrim($parsed['path'], '/'));
     define('DB_USER', $parsed['user']);
-    define('DB_PASS', $parsed['pass']);
+    define('DB_PASS', $parsed['pass'] ?? '');
+} elseif (getenv('PGHOST') || isset($_ENV['PGHOST']) || isset($_SERVER['PGHOST'])) {
+    define('DB_HOST', getenv('PGHOST') ?: ($_ENV['PGHOST'] ?? $_SERVER['PGHOST']));
+    define('DB_PORT', getenv('PGPORT') ?: ($_ENV['PGPORT'] ?? ($_SERVER['PGPORT'] ?? 5432)));
+    define('DB_NAME', getenv('PGDATABASE') ?: ($_ENV['PGDATABASE'] ?? $_SERVER['PGDATABASE']));
+    define('DB_USER', getenv('PGUSER') ?: ($_ENV['PGUSER'] ?? $_SERVER['PGUSER']));
+    define('DB_PASS', getenv('PGPASSWORD') ?: ($_ENV['PGPASSWORD'] ?? ($_SERVER['PGPASSWORD'] ?? '')));
 } else {
-    // Local development defaults
-    define('DB_HOST', '/tmp');
+    // Local development defaults — socket path must match how pg was started
+    define('DB_HOST', '/tmp/pg_runtime');
     define('DB_PORT', 5432);
     define('DB_NAME', 'atomquest');
     define('DB_USER', 'pranav');

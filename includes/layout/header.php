@@ -28,6 +28,9 @@ $_all_users = is_logged_in() ? get_all_users() : [];
     <?php if (!empty($use_bootstrap)): ?>
     <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
     <?php endif; ?>
+    <?php if (is_logged_in()): ?>
+    <meta name="csrf-token" content="<?= htmlspecialchars(csrf_token(), ENT_QUOTES, 'UTF-8') ?>">
+    <?php endif; ?>
 </head>
 <body>
 <?php if (is_logged_in()): ?>
@@ -44,6 +47,7 @@ $_all_users = is_logged_in() ? get_all_users() : [];
         <?php endif; ?>
         <?php if ($_role === 'admin'): ?>
             <a href="/admin/dashboard.php" <?= str_contains($_SERVER['REQUEST_URI'], '/admin/dashboard') ? 'class="active"' : '' ?>>Dashboard</a>
+            <a href="/manager/dashboard.php" <?= str_contains($_SERVER['REQUEST_URI'], '/manager/') ? 'class="active"' : '' ?>>Direct Reports</a>
             <a href="/admin/cycles.php" <?= str_contains($_SERVER['REQUEST_URI'], '/admin/cycles') ? 'class="active"' : '' ?>>Cycles</a>
             <a href="/admin/users.php" <?= str_contains($_SERVER['REQUEST_URI'], '/admin/users') ? 'class="active"' : '' ?>>Users</a>
             <a href="/admin/shared_goals.php" <?= str_contains($_SERVER['REQUEST_URI'], '/admin/shared_goals') ? 'class="active"' : '' ?>>Shared Goals</a>
@@ -63,17 +67,32 @@ $_all_users = is_logged_in() ? get_all_users() : [];
             </div>
         </div>
 
-        <!-- Demo Role Switcher -->
+        <!-- Demo Role Switcher (hierarchy: admin→any, manager→logout only, employee→logout only) -->
+        <?php if ($_role === 'admin'): ?>
         <div class="role-switcher">
             <select id="roleSwitcher" onchange="switchRole(this.value)">
                 <option value="">Switch User</option>
-                <?php foreach ($_all_users as $u): ?>
+                <?php
+                // Group by role for clarity
+                $grouped = ['admin' => [], 'manager' => [], 'employee' => []];
+                foreach ($_all_users as $u) {
+                    $grouped[$u['role'] ?? 'employee'][] = $u;
+                }
+                $labels = ['admin' => 'Admins', 'manager' => 'Managers', 'employee' => 'Employees'];
+                foreach ($grouped as $grp_role => $grp_users):
+                    if (empty($grp_users)) continue;
+                ?>
+                <optgroup label="<?= $labels[$grp_role] ?>">
+                    <?php foreach ($grp_users as $u): ?>
                     <option value="<?= $u['id'] ?>" <?= $u['id'] == current_user_id() ? 'selected' : '' ?>>
-                        <?= h($u['name']) ?> (<?= ucfirst($u['role']) ?>)
+                        <?= h($u['name']) ?>
                     </option>
+                    <?php endforeach; ?>
+                </optgroup>
                 <?php endforeach; ?>
             </select>
         </div>
+        <?php endif; ?>
 
         <span class="nav-user"><?= h($_user_name) ?> <span class="badge badge-role"><?= ucfirst($_role) ?></span></span>
         <a href="/index.php?action=logout" class="nav-logout">Logout</a>
