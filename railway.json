@@ -5,7 +5,7 @@
     "dockerfilePath": "Dockerfile"
   },
   "deploy": {
-    "startCommand": "php sql/migrate.php && apache2-foreground",
+    "startCommand": "echo \"export PORT=$PORT\" >> /etc/apache2/envvars && php sql/migrate.php && apache2-foreground",
     "restartPolicyType": "ON_FAILURE",
     "restartPolicyMaxRetries": 10
   }
