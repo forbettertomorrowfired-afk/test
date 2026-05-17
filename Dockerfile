@@ -6,7 +6,11 @@ RUN apt-get update && apt-get install -y libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Ensure only mpm_prefork is loaded (required for mod_php)
-RUN a2dismod mpm_event 2>/dev/null; a2enmod mpm_prefork
+# Remove conflicting MPM module files entirely to prevent "More than one MPM loaded" error
+RUN a2dismod mpm_event mpm_worker 2>/dev/null; \
+    rm -f /etc/apache2/mods-enabled/mpm_event.* /etc/apache2/mods-enabled/mpm_worker.* \
+          /etc/apache2/mods-available/mpm_event.* /etc/apache2/mods-available/mpm_worker.*; \
+    a2enmod mpm_prefork
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
