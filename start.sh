@@ -14,5 +14,9 @@ sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:${PORT}>/g" /etc/apache2/sites-ava
 echo "Running database migrations..."
 php sql/migrate.php || echo "Migrations failed or skipped, continuing startup..."
 
+echo "Enforcing MPM prefork..."
+a2dismod mpm_event mpm_worker || true
+a2enmod mpm_prefork || true
+
 echo "Starting Apache..."
 exec apache2-foreground
