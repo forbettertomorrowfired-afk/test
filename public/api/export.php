@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — CSV Export API
+ * NexusSync - CSV Export API
  */
 
 require_once __DIR__ . '/../../includes/auth.php';

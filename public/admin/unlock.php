@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Admin Unlock Goals
+ * NexusSync - Admin Unlock Goals
  */
 
 $page_title = 'Unlock Goals';
@@ -101,7 +101,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                     <td><?= h($s['name']) ?></td>
                     <td><?= h($s['employee_id']) ?></td>
                     <td><?= status_badge($s['status']) ?></td>
-                    <td><?= $s['approved_at'] ? date('d M Y', strtotime($s['approved_at'])) : '—' ?></td>
+                    <td><?= $s['approved_at'] ? date('d M Y', strtotime($s['approved_at'])) : '-' ?></td>
                     <td>
                         <form method="POST" style="display:flex; gap:8px; align-items:center;">
                             <?= csrf_field() ?>

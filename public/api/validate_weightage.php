@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Weightage Validation API (AJAX)
+ * NexusSync - Weightage Validation API (AJAX)
  */
 
 require_once __DIR__ . '/../../includes/auth.php';

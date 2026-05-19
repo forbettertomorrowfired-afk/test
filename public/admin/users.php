@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — User Management
+ * NexusSync - User Management
  */
 
 $page_title = 'Manage Users';
@@ -99,7 +99,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                     <td><?= h($u['email']) ?></td>
                     <td><span class="badge badge-role"><?= ucfirst($u['role']) ?></span></td>
                     <td><?= h($u['department']) ?></td>
-                    <td><?= h($u['manager_name'] ?? '—') ?></td>
+                    <td><?= h($u['manager_name'] ?? '-') ?></td>
                     <td><?= $u['is_active'] ? '<span class="badge badge-success">Yes</span>' : '<span class="badge badge-secondary">No</span>' ?></td>
                     <td>
                         <button class="btn btn-sm btn-outline" onclick='editUser(<?= json_encode($u) ?>)'>Edit</button>

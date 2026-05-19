@@ -1,4 +1,4 @@
-# AtomQuest - Goal Setting & Tracking Portal
+# NexusSync - Goal Setting & Tracking Portal
 
 A functional, audit-ready web portal for employee goal setting, manager approval, and quarterly achievement tracking.
 
@@ -38,20 +38,20 @@ php -S localhost:8080
 
 ## Features
 
-### Phase 1 — Goal Creation & Approval
+### Phase 1 - Goal Creation & Approval
 - Employee goal sheet creation with thrust area, UoM, targets, weightage
 - Live weightage validation (must equal 100%, min 10% per goal, max 8 goals)
 - Manager inline editing and approval workflow
 - Shared/departmental goals with read-only fields + synced achievements
 - Goal sheet locking on approval
 
-### Phase 2 — Achievement Tracking
+### Phase 2 - Achievement Tracking
 - Quarterly achievement entry with auto-computed scores
 - 6 UoM types: Numeric Min/Max, % Min/Max, Timeline, Zero-based
 - Late entry flagging
 - Manager check-in with structured comments
 
-### Phase 3 — Admin & Reporting
+### Phase 3 - Admin & Reporting
 - Cycle management, user management, org hierarchy
 - Goal unlock with mandatory reason + re-approval flow
 - CSV export of achievement reports

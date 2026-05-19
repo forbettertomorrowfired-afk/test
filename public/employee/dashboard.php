@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Employee Dashboard
+ * NexusSync - Employee Dashboard
  */
 
 $page_title = 'My Dashboard';
@@ -64,11 +64,11 @@ include __DIR__ . '/../../includes/layout/header.php';
         <div class="stat-label">Goals</div>
     </div>
     <div class="stat-card">
-        <div class="stat-value"><?= $sheet ? status_badge($sheet['status']) : '<span class="text-muted">—</span>' ?></div>
+        <div class="stat-value"><?= $sheet ? status_badge($sheet['status']) : '<span class="text-muted">-</span>' ?></div>
         <div class="stat-label">Goal Sheet Status</div>
     </div>
     <div class="stat-card">
-        <div class="stat-value"><?= $weighted_score !== null ? $weighted_score . '%' : '—' ?></div>
+        <div class="stat-value"><?= $weighted_score !== null ? $weighted_score . '%' : '-' ?></div>
         <div class="stat-label"><?= $current_quarter ?? 'N/A' ?> Score</div>
     </div>
 </div>
@@ -130,10 +130,10 @@ include __DIR__ . '/../../includes/layout/header.php';
                     <td><?= $g['uom_type'] === 'timeline' ? h($g['target_date']) : h($g['target_value']) ?></td>
                     <td><?= $g['weightage'] ?>%</td>
                     <?php if ($current_quarter): ?>
-                    <td><?= $ach ? ($g['uom_type'] === 'timeline' ? h($ach['completion_date']) : h($ach['actual_value'])) : '—' ?></td>
-                    <td><?= $ach && $ach['computed_score'] !== null ? $ach['computed_score'] . '%' : '—' ?></td>
+                    <td><?= $ach ? ($g['uom_type'] === 'timeline' ? h($ach['completion_date']) : h($ach['actual_value'])) : '-' ?></td>
+                    <td><?= $ach && $ach['computed_score'] !== null ? $ach['computed_score'] . '%' : '-' ?></td>
                     <td>
-                        <?= $ach ? status_badge($ach['status']) : '<span class="text-muted">—</span>' ?>
+                        <?= $ach ? status_badge($ach['status']) : '<span class="text-muted">-</span>' ?>
                         <?php if ($ach && $ach['is_late_entry']): ?><span class="badge badge-late">LATE</span><?php endif; ?>
                     </td>
                     <?php endif; ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Manager Check-in Page
+ * NexusSync - Manager Check-in Page
  */
 
 $page_title = 'Quarterly Check-in';
@@ -90,7 +90,7 @@ $comments = $stmt->fetchAll();
 include __DIR__ . '/../../includes/layout/header.php';
 ?>
 
-<h1>Check-in: <?= h($sheet['employee_name']) ?> — <?= $quarter ?></h1>
+<h1>Check-in: <?= h($sheet['employee_name']) ?> - <?= $quarter ?></h1>
 
 <!-- Quarter selector -->
 <div class="btn-group mb-2">
@@ -103,7 +103,7 @@ include __DIR__ . '/../../includes/layout/header.php';
 <!-- Score Summary -->
 <div class="stats-grid">
     <div class="stat-card">
-        <div class="stat-value"><?= $weighted_score !== null ? $weighted_score . '%' : '—' ?></div>
+        <div class="stat-value"><?= $weighted_score !== null ? $weighted_score . '%' : '-' ?></div>
         <div class="stat-label"><?= $quarter ?> Weighted Score</div>
     </div>
     <div class="stat-card">
@@ -115,7 +115,7 @@ include __DIR__ . '/../../includes/layout/header.php';
 <!-- Planned vs Actual -->
 <div class="card">
     <div class="card-header">
-        <h2>Planned vs Actual — <?= $quarter ?></h2>
+        <h2>Planned vs Actual - <?= $quarter ?></h2>
     </div>
     <form method="POST">
         <?= csrf_field() ?>
@@ -145,14 +145,14 @@ include __DIR__ . '/../../includes/layout/header.php';
                         <td><?= $g['uom_type'] === 'timeline' ? h($g['target_date']) : h($g['target_value']) ?></td>
                         <td>
                             <?php if ($ach): ?>
-                                <?= $g['uom_type'] === 'timeline' ? h($ach['completion_date'] ?? '—') : h($ach['actual_value'] ?? '—') ?>
+                                <?= $g['uom_type'] === 'timeline' ? h($ach['completion_date'] ?? '-') : h($ach['actual_value'] ?? '-') ?>
                                 <?php if (!empty($ach['is_late_entry'])): ?><span class="badge badge-late">LATE</span><?php endif; ?>
                             <?php else: ?>
-                                <span class="text-muted">—</span>
+                                <span class="text-muted">-</span>
                             <?php endif; ?>
                         </td>
-                        <td><?= $ach && $ach['computed_score'] !== null ? $ach['computed_score'] . '%' : '—' ?></td>
-                        <td><?= $ach ? status_badge($ach['status']) : '<span class="text-muted">—</span>' ?></td>
+                        <td><?= $ach && $ach['computed_score'] !== null ? $ach['computed_score'] . '%' : '-' ?></td>
+                        <td><?= $ach ? status_badge($ach['status']) : '<span class="text-muted">-</span>' ?></td>
                         <td>
                             <?php if ($ach): ?>
                             <select name="manager_status[<?= $ach['id'] ?>]" class="form-control" style="width: auto; min-width: 120px;">
@@ -161,7 +161,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                                 <option value="rejected" <?= ($ach['manager_status'] ?? '') === 'rejected' ? 'selected' : '' ?>>Reject</option>
                             </select>
                             <?php else: ?>
-                            <span class="text-muted">—</span>
+                            <span class="text-muted">-</span>
                             <?php endif; ?>
                         </td>
                     </tr>
@@ -185,7 +185,7 @@ include __DIR__ . '/../../includes/layout/header.php';
     <?php foreach ($comments as $c): ?>
     <div style="padding:10px; margin-bottom:8px; background:#f8fafc; border-radius:var(--radius);">
         <strong><?= h($c['manager_name']) ?></strong>
-        <span class="text-muted" style="font-size:0.8rem"> — <?= date('d M Y H:i', strtotime($c['created_at'])) ?></span>
+        <span class="text-muted" style="font-size:0.8rem"> - <?= date('d M Y H:i', strtotime($c['created_at'])) ?></span>
         <p style="margin-top:4px;"><?= h($c['comment']) ?></p>
     </div>
     <?php endforeach; ?>

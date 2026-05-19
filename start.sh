@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-echo "Starting AtomQuest container..."
+echo "Starting NexusSync container..."
 
 # Fallback to 80 if PORT is not provided by Railway
 PORT="${PORT:-80}"

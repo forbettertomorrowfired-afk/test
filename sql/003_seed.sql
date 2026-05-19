@@ -1,4 +1,4 @@
--- AtomQuest — 003_seed.sql
+-- NexusSync - 003_seed.sql
 -- Demo data: 5 users (admin, manager, 3 employees), 1 cycle, thrust areas
 -- All passwords: admin123 / manager123 / employee123
 

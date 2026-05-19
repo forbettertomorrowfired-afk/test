@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Escalation Rules Management (Bonus)
+ * NexusSync - Escalation Rules Management (Bonus)
  */
 
 $page_title = 'Escalation Rules';

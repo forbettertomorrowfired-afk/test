@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Cycle Management
+ * NexusSync - Cycle Management
  */
 
 $page_title = 'Manage Cycles';
@@ -83,11 +83,11 @@ include __DIR__ . '/../../includes/layout/header.php';
                 <?php foreach ($cycles as $c): ?>
                 <tr>
                     <td><?= h($c['cycle_name']) ?></td>
-                    <td><?= h($c['goal_setting_opens']) ?> — <?= h($c['goal_setting_closes']) ?></td>
-                    <td><?= h($c['q1_opens']) ?> — <?= h($c['q1_closes']) ?></td>
-                    <td><?= h($c['q2_opens']) ?> — <?= h($c['q2_closes']) ?></td>
-                    <td><?= h($c['q3_opens']) ?> — <?= h($c['q3_closes']) ?></td>
-                    <td><?= h($c['q4_opens']) ?> — <?= h($c['q4_closes']) ?></td>
+                    <td><?= h($c['goal_setting_opens']) ?> - <?= h($c['goal_setting_closes']) ?></td>
+                    <td><?= h($c['q1_opens']) ?> - <?= h($c['q1_closes']) ?></td>
+                    <td><?= h($c['q2_opens']) ?> - <?= h($c['q2_closes']) ?></td>
+                    <td><?= h($c['q3_opens']) ?> - <?= h($c['q3_closes']) ?></td>
+                    <td><?= h($c['q4_opens']) ?> - <?= h($c['q4_closes']) ?></td>
                     <td><?= $c['is_active'] ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-secondary">Inactive</span>' ?></td>
                     <td><button class="btn btn-sm btn-outline" onclick="editCycle(<?= htmlspecialchars(json_encode($c)) ?>)">Edit</button></td>
                 </tr>

@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Unit Tests for Critical Validation Logic
+ * NexusSync - Unit Tests for Critical Validation Logic
  * Run: php tests/test_validation.php
  * Exits 0 on pass, 1 on failure.
  */
@@ -17,7 +17,7 @@ function assert_eq($expected, $actual, string $test): void {
         echo "  ✓ $test\n";
         $passed++;
     } else {
-        echo "  ✗ $test — expected " . var_export($expected, true) . ", got " . var_export($actual, true) . "\n";
+        echo "  ✗ $test - expected " . var_export($expected, true) . ", got " . var_export($actual, true) . "\n";
         $failed++;
     }
 }

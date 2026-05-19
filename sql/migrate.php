@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Database Migration Runner
+ * NexusSync - Database Migration Runner
  * Runs numbered SQL files in order, tracking applied ones in _migrations table.
  * Usage: php sql/migrate.php
  */

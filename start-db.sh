@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# start-db.sh — Start local PostgreSQL for AtomQuest development
+# start-db.sh - Start local PostgreSQL for NexusSync development
 # The socket is placed in /tmp/pg_runtime (avoids /run/postgresql permission issues)
 # config.php is already set to DB_HOST='/tmp/pg_runtime'
 

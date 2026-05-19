@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Admin Reports & Export
+ * NexusSync - Admin Reports & Export
  */
 
 $page_title = 'Reports';
@@ -43,7 +43,7 @@ if ($cycle) {
 include __DIR__ . '/../../includes/layout/header.php';
 ?>
 
-<h1>Achievement Report — <?= $quarter ?></h1>
+<h1>Achievement Report - <?= $quarter ?></h1>
 
 <!-- Filters -->
 <div class="card">
@@ -87,23 +87,23 @@ include __DIR__ . '/../../includes/layout/header.php';
                     <td><?= h($r['name']) ?></td>
                     <td><?= h($r['department']) ?></td>
                     <td>
-                        <?= h($r['title'] ?? '—') ?>
+                        <?= h($r['title'] ?? '-') ?>
                         <?php if (!empty($r['is_shared'])): ?><span class="badge badge-info">S</span><?php endif; ?>
                     </td>
-                    <td><?= h($r['thrust_area'] ?? '—') ?></td>
-                    <td><?= $r['uom_type'] ? h(uom_label($r['uom_type'])) : '—' ?></td>
-                    <td><?= $r['uom_type'] === 'timeline' ? h($r['target_date'] ?? '—') : h($r['target_value'] ?? '—') ?></td>
+                    <td><?= h($r['thrust_area'] ?? '-') ?></td>
+                    <td><?= $r['uom_type'] ? h(uom_label($r['uom_type'])) : '-' ?></td>
+                    <td><?= $r['uom_type'] === 'timeline' ? h($r['target_date'] ?? '-') : h($r['target_value'] ?? '-') ?></td>
                     <td>
                         <?php if ($r['actual_value'] !== null): ?>
-                            <?= h($r['uom_type'] === 'timeline' ? ($r['completion_date'] ?? '—') : $r['actual_value']) ?>
+                            <?= h($r['uom_type'] === 'timeline' ? ($r['completion_date'] ?? '-') : $r['actual_value']) ?>
                             <?php if (!empty($r['is_late_entry'])): ?><span class="badge badge-late">LATE</span><?php endif; ?>
                         <?php else: ?>
-                            —
+                            -
                         <?php endif; ?>
                     </td>
-                    <td><?= $r['computed_score'] !== null ? $r['computed_score'] . '%' : '—' ?></td>
-                    <td><?= $r['weightage'] ? $r['weightage'] . '%' : '—' ?></td>
-                    <td><?= $r['achievement_status'] ? status_badge($r['achievement_status']) : '—' ?></td>
+                    <td><?= $r['computed_score'] !== null ? $r['computed_score'] . '%' : '-' ?></td>
+                    <td><?= $r['weightage'] ? $r['weightage'] . '%' : '-' ?></td>
+                    <td><?= $r['achievement_status'] ? status_badge($r['achievement_status']) : '-' ?></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

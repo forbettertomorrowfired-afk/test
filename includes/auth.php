@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Authentication & Authorization
+ * NexusSync - Authentication & Authorization
  */
 
 require_once __DIR__ . '/db.php';

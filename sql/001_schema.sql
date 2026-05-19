@@ -1,5 +1,5 @@
--- AtomQuest Goal Setting & Tracking Portal
--- 001_schema.sql — Core tables, indexes, constraints
+-- NexusSync Goal Setting & Tracking Portal
+-- 001_schema.sql - Core tables, indexes, constraints
 
 BEGIN;
 

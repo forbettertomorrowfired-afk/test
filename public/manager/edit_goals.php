@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Manager: Edit Employee Goal Sheet
+ * NexusSync - Manager: Edit Employee Goal Sheet
  * Allows a manager to add goals to, or delete goals from,
  * a direct report's goal sheet while it is still in draft/returned status.
  */
@@ -84,7 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $goals_data = [];
     foreach ($posted_goals as $idx => $g) {
         if (!empty($g['is_shared']) && $g['is_shared'] === '1') {
-            // Shared goal — only weightage update allowed
+            // Shared goal - only weightage update allowed
             $w = max(MIN_WEIGHTAGE, min(MAX_WEIGHTAGE, (int)($g['weightage'] ?? MIN_WEIGHTAGE)));
             if (!empty($g['id'])) {
                 $pdo->prepare("UPDATE goals SET weightage = ? WHERE id = ? AND goal_sheet_id = ?")
@@ -163,7 +163,7 @@ include __DIR__ . '/../../includes/layout/header.php';
 </div>
 
 <div class="alert alert-info" style="margin-bottom:16px;">
-    <strong>Manager Edit Mode</strong> — You are editing <strong><?= h($sheet['employee_name']) ?></strong>'s goal sheet
+    <strong>Manager Edit Mode</strong> - You are editing <strong><?= h($sheet['employee_name']) ?></strong>'s goal sheet
     on their behalf. Status: <?= status_badge($sheet_fresh['status']) ?>
     &nbsp;· Department: <?= h($sheet['department']) ?>
 </div>

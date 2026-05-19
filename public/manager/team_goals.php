@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Manager Team Goals List
+ * NexusSync - Manager Team Goals List
  */
 $page_title = 'Team Goals';
 require_once __DIR__ . '/../../includes/auth.php';

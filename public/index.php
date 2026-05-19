@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Login Page & Auth Actions
+ * NexusSync - Login Page & Auth Actions
  */
 
 require_once __DIR__ . '/../includes/auth.php';
@@ -56,13 +56,13 @@ $msg = $_GET['msg'] ?? '';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — AtomQuest</title>
+    <title>Login - NexusSync</title>
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
 <div class="login-wrapper">
     <div class="login-box">
-        <h1>⚛ AtomQuest</h1>
+        <h1>⚛ NexusSync</h1>
         <p class="subtitle">Goal Setting & Tracking Portal</p>
 
         <?php if ($error === 'unauthenticated'): ?>

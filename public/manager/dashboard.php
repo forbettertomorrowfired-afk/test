@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Manager Dashboard
+ * NexusSync - Manager Dashboard
  */
 
 $page_title = 'Team Dashboard';
@@ -57,7 +57,7 @@ include __DIR__ . '/../../includes/layout/header.php';
         <div class="stat-label">Goals Approved</div>
     </div>
     <div class="stat-card">
-        <div class="stat-value"><?= $current_quarter ?? '—' ?></div>
+        <div class="stat-value"><?= $current_quarter ?? '-' ?></div>
         <div class="stat-label">Current Quarter</div>
     </div>
 </div>
@@ -94,7 +94,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                     <td><?= h($member['department']) ?></td>
                     <td><?= $sheet ? status_badge($sheet['status']) : '<span class="text-muted">Not started</span>' ?></td>
                     <td><?= $goal_count ?></td>
-                    <td><?= $sheet && $sheet['submitted_at'] ? date('d M Y', strtotime($sheet['submitted_at'])) : '—' ?></td>
+                    <td><?= $sheet && $sheet['submitted_at'] ? date('d M Y', strtotime($sheet['submitted_at'])) : '-' ?></td>
                     <td>
                         <?php if ($sheet && $sheet['status'] === 'submitted'): ?>
                             <a href="/manager/approve.php?sheet_id=<?= $sheet['id'] ?>" class="btn btn-sm btn-primary">Review</a>
@@ -105,7 +105,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                         <?php elseif (!$sheet): ?>
                             <span class="text-muted">No sheet yet</span>
                         <?php else: ?>
-                            <span class="text-muted">—</span>
+                            <span class="text-muted">-</span>
                         <?php endif; ?>
                     </td>
                 </tr>

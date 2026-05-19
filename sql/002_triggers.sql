@@ -1,4 +1,4 @@
--- AtomQuest — 002_triggers.sql
+-- NexusSync - 002_triggers.sql
 -- Audit triggers + single-active-cycle enforcement
 
 BEGIN;

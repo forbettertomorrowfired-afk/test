@@ -1,4 +1,4 @@
--- AtomQuest — 004_sessions_table.sql
+-- NexusSync - 004_sessions_table.sql
 -- PostgreSQL-backed PHP session storage
 
 BEGIN;

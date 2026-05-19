@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Database Connection + PostgreSQL Session Handler
+ * NexusSync - Database Connection + PostgreSQL Session Handler
  */
 
 require_once __DIR__ . '/config.php';

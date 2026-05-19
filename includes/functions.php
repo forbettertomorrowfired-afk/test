@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Shared Helper Functions
+ * NexusSync - Shared Helper Functions
  * Validation, scoring, formatting, notifications, shared goal sync
  */
 

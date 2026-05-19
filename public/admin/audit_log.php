@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Audit Log Viewer
+ * NexusSync - Audit Log Viewer
  */
 
 $page_title = 'Audit Trail';
@@ -110,9 +110,9 @@ include __DIR__ . '/../../includes/layout/header.php';
                     <td><code><?= h($l['table_name']) ?></code></td>
                     <td><?= $l['record_id'] ?></td>
                     <td><span class="badge badge-<?= match($l['action']) { 'INSERT' => 'success', 'DELETE','SOFT_DELETE' => 'danger', 'UNLOCK' => 'warning', default => 'secondary' } ?>"><?= h($l['action']) ?></span></td>
-                    <td><?= h($l['field_name'] ?? '—') ?></td>
-                    <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis"><?= h($l['old_value'] ?? '—') ?></td>
-                    <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis"><?= h($l['new_value'] ?? '—') ?></td>
+                    <td><?= h($l['field_name'] ?? '-') ?></td>
+                    <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis"><?= h($l['old_value'] ?? '-') ?></td>
+                    <td style="max-width:150px; overflow:hidden; text-overflow:ellipsis"><?= h($l['new_value'] ?? '-') ?></td>
                     <td><?= h($l['reason'] ?? '') ?></td>
                 </tr>
                 <?php endforeach; ?>

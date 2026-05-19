@@ -1,7 +1,7 @@
 </main>
 
 <footer class="site-footer">
-    <p>⚛ AtomQuest — Goal Setting & Tracking Portal &copy; <?= date('Y') ?></p>
+    <p>⚛ NexusSync - Goal Setting & Tracking Portal &copy; <?= date('Y') ?></p>
 </footer>
 
 <script src="/assets/js/app.js"></script>

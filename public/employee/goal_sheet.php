@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — View Goal Sheet (Read-only)
+ * NexusSync - View Goal Sheet (Read-only)
  */
 
 $page_title = 'Goal Sheet';
@@ -27,7 +27,7 @@ $goals = get_goals_for_sheet($sheet['id']);
 include __DIR__ . '/../../includes/layout/header.php';
 ?>
 
-<h1>Goal Sheet — <?= h($cycle['cycle_name']) ?></h1>
+<h1>Goal Sheet - <?= h($cycle['cycle_name']) ?></h1>
 
 <div class="card">
     <div class="card-header">

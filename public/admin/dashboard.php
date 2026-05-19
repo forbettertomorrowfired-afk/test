@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Admin Dashboard
+ * NexusSync - Admin Dashboard
  */
 
 $page_title = 'Admin Dashboard';
@@ -62,7 +62,7 @@ include __DIR__ . '/../../includes/layout/header.php';
         <div class="stat-label">Total Users</div>
     </div>
     <div class="stat-card">
-        <div class="stat-value"><?= $cycle ? h($cycle['cycle_name']) : '—' ?></div>
+        <div class="stat-value"><?= $cycle ? h($cycle['cycle_name']) : '-' ?></div>
         <div class="stat-label">Active Cycle</div>
     </div>
     <div class="stat-card">

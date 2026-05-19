@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Audit Trail Logger
+ * NexusSync - Audit Trail Logger
  */
 
 require_once __DIR__ . '/db.php';

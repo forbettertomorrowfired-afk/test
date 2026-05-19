@@ -5,8 +5,19 @@ RUN apt-get update && apt-get install -y libpq-dev \
     && docker-php-ext-install pdo_pgsql \
     && rm -rf /var/lib/apt/lists/*
 
-# Enable Apache mod_rewrite
-RUN a2enmod rewrite
+# Install and configure OPcache for heavy execution efficiency
+RUN docker-php-ext-install opcache \
+    && { \
+        echo 'opcache.enable=1'; \
+        echo 'opcache.memory_consumption=128'; \
+        echo 'opcache.interned_strings_buffer=8'; \
+        echo 'opcache.max_accelerated_files=10000'; \
+        echo 'opcache.revalidate_freq=2'; \
+        echo 'opcache.fast_shutdown=1'; \
+    } > /usr/local/etc/php/conf.d/opcache-recommended.ini
+
+# Enable Apache performance modules (rewrite, gzip, caching headers)
+RUN a2enmod rewrite deflate expires headers
 
 # Set document root to public/
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public

@@ -1,5 +1,5 @@
 /**
- * AtomQuest — Core JavaScript
+ * NexusSync - Core JavaScript
  * Weightage validation, notifications, role switcher, inline edit, utilities
  */
 
@@ -124,7 +124,7 @@ function removeGoalRow(btn) {
     const row = btn.closest('.goal-row');
     if (!row) return;
     if (row.dataset.goalId) {
-        // Existing goal — mark as deleted
+        // Existing goal - mark as deleted
         row.classList.add('deleted');
         row.style.display = 'none';
         let delInput = row.querySelector('.delete-flag');
@@ -300,4 +300,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize existing goal rows
     document.querySelectorAll('.goal-row').forEach(row => bindUomToggle(row));
+
+    // Global Interactive UI: Disable form submission buttons on submit to prevent double-clicks
+    document.querySelectorAll('form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const btn = this.querySelector('button[type="submit"]');
+            if (btn) {
+                btn.dataset.originalText = btn.innerHTML;
+                btn.innerHTML = '<span style="opacity: 0.8;">Processing...</span>';
+                btn.style.pointerEvents = 'none';
+                btn.classList.add('loading-active');
+            }
+        });
+    });
 });

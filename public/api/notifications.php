@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Notifications API (AJAX)
+ * NexusSync - Notifications API (AJAX)
  */
 
 require_once __DIR__ . '/../../includes/auth.php';

@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Manager Approval Page
+ * NexusSync - Manager Approval Page
  * Inline editing of targets/weightage, approve or return for rework
  */
 

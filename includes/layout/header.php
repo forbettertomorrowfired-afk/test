@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Layout Header
+ * NexusSync - Layout Header
  * Role-aware navigation bar with notification bell and demo role switcher
  */
 
@@ -9,7 +9,7 @@ require_once __DIR__ . '/../db.php';
 require_once __DIR__ . '/../auth.php';
 require_once __DIR__ . '/../functions.php';
 
-$_page_title = $page_title ?? 'AtomQuest';
+$_page_title = $page_title ?? 'NexusSync';
 $_role = current_role();
 $_user_name = current_user_name();
 $_unread = is_logged_in() ? get_unread_count(current_user_id()) : 0;
@@ -22,8 +22,8 @@ $_all_users = is_logged_in() ? get_all_users() : [];
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AtomQuest — In-House Goal Setting & Tracking Portal">
-    <title><?= h($_page_title) ?> — AtomQuest</title>
+    <meta name="description" content="NexusSync - In-House Goal Setting & Tracking Portal">
+    <title><?= h($_page_title) ?> - NexusSync</title>
     <link rel="stylesheet" href="/assets/css/style.css">
     <?php if (!empty($use_bootstrap)): ?>
     <link rel="stylesheet" href="/assets/vendor/bootstrap.min.css">
@@ -36,7 +36,7 @@ $_all_users = is_logged_in() ? get_all_users() : [];
 <?php if (is_logged_in()): ?>
 <nav class="navbar">
     <div class="nav-brand">
-        <a href="<?= get_dashboard_url() ?>">⚛ AtomQuest</a>
+        <a href="<?= get_dashboard_url() ?>">⚛ NexusSync</a>
     </div>
     <div class="nav-links">
         <?php if ($_role === 'employee' || $_role === 'manager'): ?>

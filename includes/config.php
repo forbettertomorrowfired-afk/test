@@ -1,9 +1,9 @@
 <?php
 /**
- * AtomQuest — Application Configuration
+ * NexusSync - Application Configuration
  */
 
-// Database — Railway provides DATABASE_URL and PG* env vars
+// Database - Railway provides DATABASE_URL and PG* env vars
 $db_url = getenv('DATABASE_URL') ?: ($_ENV['DATABASE_URL'] ?? ($_SERVER['DATABASE_URL'] ?? null));
 
 if ($db_url) {
@@ -20,7 +20,7 @@ if ($db_url) {
     define('DB_USER', getenv('PGUSER') ?: ($_ENV['PGUSER'] ?? $_SERVER['PGUSER']));
     define('DB_PASS', getenv('PGPASSWORD') ?: ($_ENV['PGPASSWORD'] ?? ($_SERVER['PGPASSWORD'] ?? '')));
 } else {
-    // Local development defaults — socket path must match how pg was started
+    // Local development defaults - socket path must match how pg was started
     define('DB_HOST', '/tmp/pg_runtime');
     define('DB_PORT', 5432);
     define('DB_NAME', 'atomquest');
@@ -29,7 +29,7 @@ if ($db_url) {
 }
 
 // Application
-define('APP_NAME', 'AtomQuest');
+define('APP_NAME', 'NexusSync');
 define('APP_URL', getenv('APP_URL') ?: 'http://localhost:8080');
 
 // Paths

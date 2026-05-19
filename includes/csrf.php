@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — CSRF Protection
+ * NexusSync - CSRF Protection
  */
 
 /**

@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Save Goal Draft API (AJAX)
+ * NexusSync - Save Goal Draft API (AJAX)
  */
 
 require_once __DIR__ . '/../../includes/auth.php';

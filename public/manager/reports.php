@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Manager Reports
+ * NexusSync - Manager Reports
  */
 
 $page_title = 'Team Reports';
@@ -30,7 +30,7 @@ foreach ($team as $member) {
 include __DIR__ . '/../../includes/layout/header.php';
 ?>
 
-<h1>Team Reports — <?= h($quarter) ?></h1>
+<h1>Team Reports - <?= h($quarter) ?></h1>
 
 <div class="btn-group mb-2">
     <?php foreach (QUARTERS as $q): ?>
@@ -40,7 +40,7 @@ include __DIR__ . '/../../includes/layout/header.php';
 </div>
 
 <div class="card">
-    <div class="card-header"><h2>Team Scores — <?= $quarter ?></h2></div>
+    <div class="card-header"><h2>Team Scores - <?= $quarter ?></h2></div>
     <div class="table-wrap">
         <table>
             <thead>
@@ -59,7 +59,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                                      style="width:<?= min($r['score'], 100) ?>%"><?= $r['score'] ?>%</div>
                             </div>
                         <?php else: ?>
-                            <span class="text-muted">—</span>
+                            <span class="text-muted">-</span>
                         <?php endif; ?>
                     </td>
                 </tr>

@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Shared Goals Management
+ * NexusSync - Shared Goals Management
  */
 
 $page_title = 'Shared Goals';
@@ -128,7 +128,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                     <td><?= h($t['title']) ?></td>
                     <td><?= h(uom_label($t['uom_type'])) ?></td>
                     <td><?= $t['uom_type'] === 'timeline' ? h($t['target_date']) : h($t['target_value']) ?></td>
-                    <td><?= h($t['owner_name'] ?? '—') ?></td>
+                    <td><?= h($t['owner_name'] ?? '-') ?></td>
                     <td><?= h($t['creator_name']) ?></td>
                     <td>
                         <button class="btn btn-sm btn-success" onclick="showPush(<?= $t['id'] ?>)">Push to Employees</button>

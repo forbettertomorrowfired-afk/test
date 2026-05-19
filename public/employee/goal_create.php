@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Goal Creation & Editing
+ * NexusSync - Goal Creation & Editing
  * Handles: create new goal sheet, edit draft/returned sheets, save draft, submit
  */
 
@@ -38,7 +38,7 @@ if (!in_array($sheet['status'], ['draft', 'returned'])) {
     redirect('/employee/goal_sheet.php');
 }
 
-// Handle POST — Save Draft or Submit
+// Handle POST - Save Draft or Submit
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     validate_csrf();
 
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $goals_data = [];
     foreach ($posted_goals as $idx => $g) {
         if (!empty($g['is_shared']) && $g['is_shared'] === '1') {
-            // Shared goal — only update weightage
+            // Shared goal - only update weightage
             $w = max(MIN_WEIGHTAGE, min(MAX_WEIGHTAGE, (int)($g['weightage'] ?? MIN_WEIGHTAGE)));
             if (!empty($g['id'])) {
                 $stmt = $pdo->prepare("UPDATE goals SET weightage = ? WHERE id = ? AND goal_sheet_id = ?");
@@ -164,7 +164,7 @@ $sheet = $sheet->fetch();
 include __DIR__ . '/../../includes/layout/header.php';
 ?>
 
-<h1>Goal Sheet — <?= h($cycle['cycle_name']) ?></h1>
+<h1>Goal Sheet - <?= h($cycle['cycle_name']) ?></h1>
 
 <?php if ($sheet['status'] === 'returned' && $sheet['return_comment']): ?>
 <div class="alert alert-warning">

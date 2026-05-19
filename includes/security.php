@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Security Headers & Cookie Configuration
+ * NexusSync - Security Headers & Cookie Configuration
  */
 
 function set_security_headers(): void {
@@ -21,6 +21,6 @@ function set_security_headers(): void {
     header("Referrer-Policy: strict-origin-when-cross-origin");
     header("X-XSS-Protection: 1; mode=block");
 
-    // CSP — allow self + inline styles for Bootstrap compatibility
+    // CSP - allow self + inline styles for Bootstrap compatibility
     header("Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self';");
 }

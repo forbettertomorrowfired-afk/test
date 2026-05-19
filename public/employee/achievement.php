@@ -1,6 +1,6 @@
 <?php
 /**
- * AtomQuest — Achievement Entry (Quarterly)
+ * NexusSync - Achievement Entry (Quarterly)
  */
 
 $page_title = 'Log Achievement';
@@ -113,7 +113,7 @@ foreach ($stmt->fetchAll() as $a) {
 include __DIR__ . '/../../includes/layout/header.php';
 ?>
 
-<h1>Log Achievement — <?= h($quarter) ?> <?= h($cycle['cycle_name']) ?></h1>
+<h1>Log Achievement - <?= h($quarter) ?> <?= h($cycle['cycle_name']) ?></h1>
 
 <?php if ($is_late): ?>
 <div class="alert alert-warning">
@@ -182,7 +182,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                                 <?= $ach['computed_score'] ?>%
                                 <?php if (!empty($ach['is_late_entry'])): ?><span class="badge badge-late">LATE</span><?php endif; ?>
                             <?php else: ?>
-                                —
+                                -
                             <?php endif; ?>
                         </td>
                         <td>
@@ -192,7 +192,7 @@ include __DIR__ . '/../../includes/layout/header.php';
                             ?>
                                 <span class="badge <?= $c ?>"><?= ucfirst($ms) ?></span>
                             <?php else: ?>
-                                <span class="text-muted">—</span>
+                                <span class="text-muted">-</span>
                             <?php endif; ?>
                         </td>
                     </tr>
