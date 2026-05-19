@@ -15,7 +15,7 @@ function get_db(): PDO {
         if (str_starts_with(DB_HOST, '/')) {
             $dsn = sprintf('pgsql:host=%s;port=%d;dbname=%s', DB_HOST, DB_PORT, DB_NAME);
         } else {
-            $dsn = sprintf('pgsql:host=%s;port=%d;dbname=%s', DB_HOST, DB_PORT, DB_NAME);
+            $dsn = sprintf('pgsql:host=%s;port=%d;dbname=%s;connect_timeout=3', DB_HOST, DB_PORT, DB_NAME);
         }
         $pdo = new PDO($dsn, DB_USER, DB_PASS ?: null, [
             PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,

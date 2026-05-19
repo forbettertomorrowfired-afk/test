@@ -1,9 +1,0 @@
-RewriteEngine On
-
-# Redirect /login to index.php
-RewriteRule ^login$ /index.php [L]
-
-# Prevent access to includes
-<FilesMatch "\.php$">
-    SetHandler application/x-httpd-php
-</FilesMatch>

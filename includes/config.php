@@ -45,12 +45,12 @@ define('QUARTERS', ['Q1', 'Q2', 'Q3', 'Q4']);
 
 // UoM types
 define('UOM_TYPES', [
-    'numeric_min'  => 'Numeric (Higher is Better)',
-    'numeric_max'  => 'Numeric (Lower is Better)',
-    'percent_min'  => '% (Higher is Better)',
-    'percent_max'  => '% (Lower is Better)',
-    'timeline'     => 'Timeline (Date-based)',
-    'zero'         => 'Zero-based (Zero = Success)',
+    'numeric_min' => 'Numeric (Higher is Better)',
+    'numeric_max' => 'Numeric (Lower is Better)',
+    'percent_min' => '% (Higher is Better)',
+    'percent_max' => '% (Lower is Better)',
+    'timeline' => 'Timeline (Date-based)',
+    'zero' => 'Zero-based (Zero = Success)',
 ]);
 
 // Goal constraints

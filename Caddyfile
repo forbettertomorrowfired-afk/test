@@ -1,0 +1,20 @@
+{
+	frankenphp
+	order php_server before file_server
+}
+
+# Listen on the dynamic PORT provided by Railway, default to 8080 for local docker-compose
+:{$PORT:8080} {
+	# Set document root to the public directory
+	root * public
+	
+	# Enable automatic Brotli/Gzip compression
+	encode zstd gzip
+	
+	# Routing Rules
+	rewrite /login /index.php
+	
+	# Execute PHP files and serve static assets
+	php_server
+	file_server
+}
