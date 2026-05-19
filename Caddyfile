@@ -12,5 +12,4 @@ http://:{$PORT:8080} {
 	rewrite /login /index.php
 	
 	php_server
-	file_server
 }
