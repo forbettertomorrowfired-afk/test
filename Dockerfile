@@ -9,10 +9,13 @@ RUN apt-get update && apt-get install -y libpq-dev \
 RUN a2enmod rewrite
 
 # Remove conflicting Apache MPM binaries and configs to prevent startup crashes
-RUN rm -f /etc/apache2/mods-available/mpm_event.load \
-    /etc/apache2/mods-available/mpm_worker.load \
-    /usr/lib/apache2/modules/mod_mpm_event.so \
-    /usr/lib/apache2/modules/mod_mpm_worker.so
+RUN a2dismod mpm_event mpm_worker || true \
+    && rm -f /etc/apache2/mods-enabled/mpm_event.load \
+    && rm -f /etc/apache2/mods-enabled/mpm_worker.load \
+    && rm -f /etc/apache2/mods-available/mpm_event.load \
+    && rm -f /etc/apache2/mods-available/mpm_worker.load \
+    && rm -f /usr/lib/apache2/modules/mod_mpm_event.so \
+    && rm -f /usr/lib/apache2/modules/mod_mpm_worker.so
 
 # Set document root to public/
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
