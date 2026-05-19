@@ -19,8 +19,12 @@ RUN sed -ri -e 's/AllowOverride None/AllowOverride All/g' /etc/apache2/apache2.c
 # Copy application
 COPY . /var/www/html/
 
+# Copy startup script to a global bin directory
+COPY start.sh /usr/local/bin/start.sh
+RUN chmod +x /usr/local/bin/start.sh
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Port binding is handled at runtime via railway.json
-EXPOSE 80
+# Use the startup script as the entrypoint
+CMD ["/usr/local/bin/start.sh"]
