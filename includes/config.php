@@ -8,24 +8,13 @@ $db_url = getenv('DATABASE_URL') ?: ($_ENV['DATABASE_URL'] ?? ($_SERVER['DATABAS
 
 if ($db_url) {
     $parsed = parse_url($db_url);
-    
-    // Force IPv4 resolution to prevent massive 5-second TCP timeouts on IPv6-enabled cloud networks
-    $host = $parsed['host'];
-    if (!filter_var($host, FILTER_VALIDATE_IP)) {
-        $host = gethostbyname($host);
-    }
-    
-    define('DB_HOST', $host);
+    define('DB_HOST', $parsed['host']);
     define('DB_PORT', $parsed['port'] ?? 5432);
     define('DB_NAME', ltrim($parsed['path'], '/'));
     define('DB_USER', $parsed['user']);
     define('DB_PASS', $parsed['pass'] ?? '');
 } elseif (getenv('PGHOST') || isset($_ENV['PGHOST']) || isset($_SERVER['PGHOST'])) {
-    $host = getenv('PGHOST') ?: ($_ENV['PGHOST'] ?? $_SERVER['PGHOST']);
-    if (!filter_var($host, FILTER_VALIDATE_IP)) {
-        $host = gethostbyname($host);
-    }
-    define('DB_HOST', $host);
+    define('DB_HOST', getenv('PGHOST') ?: ($_ENV['PGHOST'] ?? $_SERVER['PGHOST']));
     define('DB_PORT', getenv('PGPORT') ?: ($_ENV['PGPORT'] ?? ($_SERVER['PGPORT'] ?? 5432)));
     define('DB_NAME', getenv('PGDATABASE') ?: ($_ENV['PGDATABASE'] ?? $_SERVER['PGDATABASE']));
     define('DB_USER', getenv('PGUSER') ?: ($_ENV['PGUSER'] ?? $_SERVER['PGUSER']));

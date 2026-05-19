@@ -11,25 +11,39 @@ require_role('admin');
 $pdo = get_db();
 $cycle = get_active_cycle();
 
-// Stats
-$total_users = (int)$pdo->query("SELECT COUNT(*) FROM users WHERE is_active = TRUE")->fetchColumn();
-$total_employees = (int)$pdo->query("SELECT COUNT(*) FROM users WHERE role IN ('employee','manager') AND is_active = TRUE")->fetchColumn();
-$total_managers = (int)$pdo->query("SELECT COUNT(*) FROM users WHERE role = 'manager' AND is_active = TRUE")->fetchColumn();
+// Stats - Optimized into a single query to eliminate sequential network latency
+$user_stats = $pdo->query("
+    SELECT 
+        COUNT(*) as total_users,
+        COUNT(CASE WHEN role IN ('employee','manager') THEN 1 END) as total_employees,
+        COUNT(CASE WHEN role = 'manager' THEN 1 END) as total_managers
+    FROM users 
+    WHERE is_active = TRUE
+")->fetch();
+
+$total_users = (int)$user_stats['total_users'];
+$total_employees = (int)$user_stats['total_employees'];
+$total_managers = (int)$user_stats['total_managers'];
 
 $sheets_submitted = 0; $sheets_approved = 0; $sheets_total = 0;
 if ($cycle) {
-    $sheets_total = (int)$pdo->prepare("SELECT COUNT(*) FROM goal_sheets WHERE cycle_id = ?")->execute([$cycle['id']]) ? $pdo->query("SELECT COUNT(*) FROM goal_sheets WHERE cycle_id = {$cycle['id']}")->fetchColumn() : 0;
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM goal_sheets WHERE cycle_id = ?");
+    // Combine 3 separate COUNT queries into 1
+    $stmt = $pdo->prepare("
+        SELECT 
+            COUNT(*) as sheets_total,
+            COUNT(CASE WHEN status IN ('submitted','approved','locked') THEN 1 END) as sheets_submitted,
+            COUNT(CASE WHEN status IN ('approved','locked') THEN 1 END) as sheets_approved
+        FROM goal_sheets 
+        WHERE cycle_id = ?
+    ");
     $stmt->execute([$cycle['id']]);
-    $sheets_total = (int)$stmt->fetchColumn();
-
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM goal_sheets WHERE cycle_id = ? AND status IN ('submitted','approved','locked')");
-    $stmt->execute([$cycle['id']]);
-    $sheets_submitted = (int)$stmt->fetchColumn();
-
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM goal_sheets WHERE cycle_id = ? AND status IN ('approved','locked')");
-    $stmt->execute([$cycle['id']]);
-    $sheets_approved = (int)$stmt->fetchColumn();
+    $sheet_stats = $stmt->fetch();
+    
+    if ($sheet_stats) {
+        $sheets_total = (int)$sheet_stats['sheets_total'];
+        $sheets_submitted = (int)$sheet_stats['sheets_submitted'];
+        $sheets_approved = (int)$sheet_stats['sheets_approved'];
+    }
 }
 
 $current_quarter = $cycle ? get_current_quarter($cycle) : null;
